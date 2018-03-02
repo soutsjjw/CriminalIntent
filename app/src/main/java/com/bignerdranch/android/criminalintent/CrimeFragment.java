@@ -19,6 +19,7 @@ import android.widget.EditText;
 import java.util.Date;
 import java.util.UUID;
 
+// TODO: 2018/3/1 12.4 挑戰練習：實現響應式DialogFragment 
 public class CrimeFragment extends Fragment {
 
     private static final String ARG_CRIME_ID = "crime_id";
