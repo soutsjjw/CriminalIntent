@@ -8,6 +8,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,6 +20,8 @@ public class CrimePagerActivity extends AppCompatActivity {
     private static final String EXTRA_CRIME_ID = "com.bignerdranch.android.criminalintent.crime_id";
 
     private ViewPager mViewPager;
+    private Button mJumpToFirst;
+    private Button mJumpToLast;
     private List<Crime> mCrimes;
 
     public static Intent newIntent(Context packageContext, UUID crimeId) {
@@ -46,6 +51,46 @@ public class CrimePagerActivity extends AppCompatActivity {
             @Override
             public int getCount() {
                 return mCrimes.size();
+            }
+        });
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if (position == 0) {
+                    mJumpToFirst.setEnabled(false);
+                } else {
+                    mJumpToFirst.setEnabled(true);
+                }
+
+                if (position == mCrimes.size() - 1) {
+                    mJumpToLast.setEnabled(false);
+                } else {
+                    mJumpToLast.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+
+        mJumpToFirst = (Button)findViewById(R.id.jump_to_first);
+        mJumpToFirst.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewPager.setCurrentItem(0);
+            }
+        });
+
+        mJumpToLast = (Button)findViewById(R.id.jump_to_last);
+        mJumpToLast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewPager.setCurrentItem(mCrimes.size() - 1);
             }
         });
 
