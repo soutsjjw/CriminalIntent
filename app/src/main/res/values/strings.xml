@@ -9,4 +9,9 @@
     <string name="show_subtitle">Show Subtitle</string>
     <string name="hide_subtitle">Hide Subtitle</string>
     <string name="subtitle_format">%1$d crimes</string>
+
+    <string name="delete_crime">Delete Crime</string>
+    <string name="is_want_to_delete">是否確定要刪除?</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
 </resources>
