@@ -1,17 +1,21 @@
 package com.bignerdranch.android.criminalintent;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +24,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import java.security.Permissions;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -37,6 +42,7 @@ public class CrimeFragment extends Fragment {
     private Button mDateButton;
     private CheckBox mSolvedCheckBox;
     private Button mSuspectButton;
+    private Button mCallSuspectButton;
     private Button mReportButton;
 
     public static CrimeFragment newInstance(UUID crimeId) {
@@ -132,9 +138,24 @@ public class CrimeFragment extends Fragment {
             }
         });
 
+        mCallSuspectButton = (Button)v.findViewById(R.id.crime_call_suspect);
+        mCallSuspectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("CrimeFragment", getPhoneNumber(mCrime.getSuspect()));
+
+                String phoneNumber =  getPhoneNumber(mCrime.getSuspect());
+                if (phoneNumber != null) {
+                    Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber));
+                    startActivity(i);
+                }
+            }
+        });
+
         if (mCrime.getSuspect() != null) {
             mSuspectButton.setText(mCrime.getSuspect());
         }
+        SetCallSuspectButtonEnabled();
 
         PackageManager packageManager = getActivity().getPackageManager();
         if (packageManager.resolveActivity(pickContact,
@@ -177,9 +198,18 @@ public class CrimeFragment extends Fragment {
                 String suspect = c.getString(0);
                 mCrime.setSuspect(suspect);
                 mSuspectButton.setText(suspect);
+                SetCallSuspectButtonEnabled();
             } finally {
                 c.close();
             }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_CONTACT
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            mCallSuspectButton.setEnabled(mCrime.getSuspect() != null);
         }
     }
 
@@ -210,5 +240,36 @@ public class CrimeFragment extends Fragment {
                 mCrime.getTitle(), dateString, solvedString, suspect);
 
         return report;
+    }
+
+    private void SetCallSuspectButtonEnabled() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (getActivity().checkSelfPermission(Manifest.permission.READ_CONTACTS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.READ_CONTACTS},
+                        REQUEST_CONTACT);
+            } else {
+                mCallSuspectButton.setEnabled(mCrime.getSuspect() != null);
+            }
+        }
+    }
+
+    private String getPhoneNumber(String name) {
+        String ret = null;
+        String selection = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " like '%" + name + "%' ";
+        String[] projection = new String[] {ContactsContract.CommonDataKinds.Phone.NUMBER };
+        Cursor cursor = getContext().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                projection, selection, null, null);
+
+        try {
+            if (cursor.moveToFirst()) {
+                ret = cursor.getString(0);
+            }
+        }
+        finally {
+            cursor.close();
+        }
+
+        return ret;
     }
 }
