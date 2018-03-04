@@ -36,6 +36,7 @@ public class CrimeFragment extends Fragment {
 
     private static final String ARG_CRIME_ID = "crime_id";
     private static final String DIALOG_DATE = "DialogDate";
+    private static final String DIALOG_PHOTO = "DialogPhoto";
 
     private static final int REQUEST_DATE = 0;
     private static final int REQUEST_CONTACT = 1;
@@ -49,7 +50,7 @@ public class CrimeFragment extends Fragment {
     private Button mSuspectButton;
     private Button mReportButton;
     private ImageButton mPhotoButton;
-    private ImageView mPhotoView;
+    private ImageButton mPhotoView;
 
     public static CrimeFragment newInstance(UUID crimeId) {
         Bundle args = new Bundle();
@@ -183,8 +184,18 @@ public class CrimeFragment extends Fragment {
             }
         });
 
-        mPhotoView = (ImageView)v.findViewById(R.id.crime_photo);
+        mPhotoView = (ImageButton)v.findViewById(R.id.crime_photo);
         updatePhoteView();
+        mPhotoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getFragmentManager();
+                PhotoFragment dialog = PhotoFragment.newInstance(CrimeLab.get(getActivity()).getPhotoFile(mCrime));
+
+                dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE);
+                dialog.show(manager, DIALOG_PHOTO);
+            }
+        });
 
         return v;
     }
