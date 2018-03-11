@@ -38,6 +38,13 @@ public class CrimeLab {
         mDatabase.insert(CrimeDbSchema.CrimeTable.NAME, null, values);
     }
 
+    public void deleteCrime(Crime c) {
+        mDatabase.delete(CrimeDbSchema.CrimeTable.NAME
+                , CrimeDbSchema.CrimeTable.Cols.UUID + "=?"
+                , new String[] { String.valueOf(c.getId()) });
+    }
+
+
     public List<Crime> getCrimes() {
         List<Crime> crimes = new ArrayList<>();
 
