@@ -13,12 +13,13 @@
     <string name="subtitle_format">%1$d crimes</string>
     <string name="crime_suspect_text">嫌疑人聯繫方式</string>
     <string name="crime_report_text">抗議或投訴</string>
-    <string name="crime_report">%1$s!crime發生於 %2$s. %3$s, y %4$s</string>
+    <string name="crime_report">%1$s!crime發生於 %2$s. %3$s, %4$s</string>
     <string name="crime_report_solved">問題已解決</string>
     <string name="crime_report_unsolved">問題未解決</string>
     <string name="crime_report_no_suspect">沒找到嫌疑人</string>
     <string name="crime_report_suspect">嫌疑人是 %s.</string>
     <string name="crime_report_subject">crime處理情況報告</string>
     <string name="send_report">投訴方式</string>
+    <string name="crime_date_format">yyyy年MM月dd日 HH:mm:ss Z</string>
 
 </resources>

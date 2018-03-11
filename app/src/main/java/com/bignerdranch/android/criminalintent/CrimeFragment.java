@@ -268,7 +268,8 @@ public class CrimeFragment extends Fragment {
     }
 
     private void updateDate() {
-        mDateButton.setText(mCrime.getDate().toString());
+        SimpleDateFormat sdFormat = new SimpleDateFormat(getResources().getString(R.string.crime_date_format));
+        mDateButton.setText(sdFormat.format(mCrime.getDate()));
     }
 
     private String getCrimeReport() {

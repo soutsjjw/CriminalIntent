@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">CriminalIntent</string>
     <string name="crime_title_hint">Enter a title for the crime.</string>
     <string name="crime_title_label">Title</string>
@@ -20,4 +21,6 @@
     <string name="crime_report_suspect">the suspect is %s.</string>
     <string name="crime_report_subject">CriminalIntent Crime Report</string>
     <string name="send_report">Send crime report via</string>
+    <string name="crime_date_format">EEE MMM HH:mm:ss Z yyyy</string>
+
 </resources>
