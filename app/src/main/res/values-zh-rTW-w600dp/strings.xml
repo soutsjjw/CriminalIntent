@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="crime_title_hint">
+        請輸入簡短、好記的crime描述
+    </string>
+
+</resources>
