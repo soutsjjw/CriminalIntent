@@ -6,6 +6,9 @@
     <string name="crime_title_label">標題</string>
     <string name="crime_details_label">明細</string>
     <string name="crime_solved_label">是否解決</string>
+    <string name="crime_photo_button_description">陋習現場拍照按鈕</string>
+    <string name="crime_photo_no_image_description">crime陋習現場照片，當前未拍照</string>
+    <string name="crime_photo_image_description">crime陋習現場照片，當前已拍照</string>
     <string name="date_picker_title">crime發生日期:</string>
     <string name="new_crime">新增crime紀錄</string>
     <string name="show_subtitle">顯示子標題</string>
